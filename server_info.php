@@ -1,0 +1,8 @@
+<?php
+	phpinfo(); // serveri info 
+	
+
+
+
+
+ 
