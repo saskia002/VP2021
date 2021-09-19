@@ -72,8 +72,7 @@
 			$picture_choice_error = "Valige õige pilt!";
 		}
 	}	
-	
-
+//kms
 ?>
 
 <!DOCTYPE html>
