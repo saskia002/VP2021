@@ -1,4 +1,16 @@
 <?php
+	//alustame sessiooni
+    session_start();
+    //kas on sisselogitud
+    if(!isset($_SESSION["user_id"])){
+        header("Location: page.php");
+    }
+    //väljalogimine
+    if(isset($_GET["logout"])){
+        session_destroy();
+        header("Location: page.php");
+    }
+
 	$author_name = "Siim";
 	require_once("../../config.php");
 	//echo $server_host;
@@ -10,7 +22,7 @@
 <html lang="et">
 <head>
 	<meta charset="utf-8">
-	<title><?php echo $author_name; ?>, Veebiprogrammeerimine</title>
+	<title><?php echo $_SESSION["first_name"] ." " .$_SESSION["last_name"]; ?>, veebiprogrammeerimine</title>
 </head>
 <style>
 .content {
@@ -19,7 +31,7 @@
 }
 </style>
 <body>
-	<i><h1><?php echo $author_name; ?>, Veebiprogrammeerimine</h1></i><hr><br />
+	<i><h1><?php echo $_SESSION["first_name"] ." " .$_SESSION["last_name"]; ?>, veebiprogrammeerimine</h1></i><hr><br />
 <div class="content">
 	<h2>Eesti filmid</h2>
 	<?php echo $films_html; ?>
@@ -28,6 +40,7 @@
 </body>
 <footer>
 	<hr>
+	<a href="?logout=1">Logi välja</a>
 	<i><b><p>Siimu veebileht.<br /></b>
 	<a href="mailto:siim02@tlu.ee">Saada mullle meil! :)</a><br />
 	<i>See leht on valminud õppetöö raames ja ei sisalda mingisugust tõsisevaltvõetavat sisu!</p></i>

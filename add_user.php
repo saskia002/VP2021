@@ -1,5 +1,7 @@
  <?php
+	  require_once("../../config.php");
 	  require_once("fnc_general.php");
+	  require_once("fnc_user.php");
 	  
 	  $notice = null;
 	  $name = null;
@@ -88,14 +90,28 @@
 			
 			if(!empty($_POST['email_input']) and isset($_POST['email_input'])){
 				$email = filter_var($_POST['email_input'], FILTER_VALIDATE_EMAIL);
-				if(strlen($name) < 5){
-					$email_error = 'Palun sisesta email!';
+				if(strlen($email) < 5){
+					$email_error = '1Palun sisesta email!';
 				}
 			}else{
-					$email_error = 'Palun sisesta email!';
+					$email_error = '2Palun sisesta email!';
 			}
 			
-			//Kasutaja nimi ja prool ning selle kordus.
+			//Valideerime kuupäeva ja paneme selle kokku.'
+			if((empty($birth_day_error)) and (empty($birth_month_error)) and (empty($birth_year_error))){
+				if(checkdate($birth_month, $birth_day, $birth_year)){
+					//moodustame kuupäeva
+					$temp_date = new DateTime($birth_year ."-" .$birth_month ."-" .$birth_day); //andmebaasi ootab ka seda formaati kuupäeva.
+					$birth_date = $temp_date->format("Y-m-d"); // nool on objektidele lähenemine
+				}else{
+					$birth_date_error = 'Valitud kuupäev on vigane!';
+				}
+			}else{
+				$birth_date_error = 'Valitud kuupäev on vigane!';
+			}
+			
+			
+			//Prool ning selle kordus.
 			
 			if(!empty($_POST['password_input']) and isset($_POST['password_input'])){
 				if(strlen($_POST['password_input']) < 8){
@@ -106,15 +122,20 @@
 			}
 			
 			if(!empty($_POST['confirm_password_input']) and isset($_POST['confirm_password_input'])){
-				if($_POST['confirm_password_input'] != $_POST['password_input']);
-					$confirm_password_error = 'Sisestatud salasõnad on erinevad.';
+				if($_POST['confirm_password_input'] !== $_POST['password_input']);
+					$confirm_password_error = null;//'Sisestatud salasõnad on erinevad.';
 			}else{
 				$confirm_password_error = 'Palun siesesta salasõna kaks korda!';
 			}
 			
+			//Kui vigu pole siis luuakse kasutaja. 
 			
-			
-			
+			if((empty($name_error)) and (empty($surname_error)) and (empty($birth_month_error)) and (empty($birth_year_error)) and (empty($birth_day_error)) and (empty($birth_date_error)) and (empty($gender_error)) and (empty($email_error)) and (empty($password_error)) and (empty($confirm_password_error))){
+				
+				$notice = store_new_user($name, $surname, $gender, $birth_date, $email, $_POST['password_input']);
+			}
+	
+	
 		}
 	}	
 		
