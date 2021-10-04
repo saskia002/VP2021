@@ -96,7 +96,7 @@
 					$director_form_placeholder = $_POST['director_input'];
 				}
 		}else{
-		$input_error_form6 = 'Väli vajab täitmist';
+			$input_error_form6 = 'Väli vajab täitmist';
 		}
 		
 			if((!empty($_POST['title_input'])) and (!empty($_POST['year_input'])) and (!empty($_POST['duration_input'])) and (!empty($_POST['genre_input'])) and (!empty($_POST['studio_input'])) and (!empty($_POST['director_input']))){
@@ -105,20 +105,9 @@
 					$film_store_notice = "Osa andmeid on puudu!";
 			} */
 	}
+	require('page_header.php');
 ?>
-<!DOCTYPE html>
-<html lang="et">
-<head>
-	<meta charset="utf-8">
-	<title><?php echo $_SESSION["first_name"] ." " .$_SESSION["last_name"]; ?>, veebiprogrammeerimine</title>
-</head>
-<style>
-.content {
-  max-width: 960px;
-  margin: auto;
-}
-</style>
-<body>
+
 	<i><h1><?php echo $_SESSION["first_name"] ." " .$_SESSION["last_name"]; ?>, veebiprogrammeerimine</h1></i><hr><br />
 <div class="content">
 	<h2>Eesti filmide lisamine andmebaasi:</h2>

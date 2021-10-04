@@ -17,22 +17,9 @@
 	require_once("fnc_film.php");
 	$films_html = null;
 	$films_html= read_all_films();
+	require_once('page_header.php')
 ?>
-<!DOCTYPE html>
-<html lang="et">
-<head>
-	<meta charset="utf-8">
-	<title><?php echo $_SESSION["first_name"] ." " .$_SESSION["last_name"]; ?>, veebiprogrammeerimine</title>
-</head>
-<style>
-.content {
-  max-width: 960px;
-  margin: auto;
-}
-</style>
-<body>
-	<i><h1><?php echo $_SESSION["first_name"] ." " .$_SESSION["last_name"]; ?>, veebiprogrammeerimine</h1></i><hr><br />
-<div class="content">
+
 	<h2>Eesti filmid</h2>
 	<?php echo $films_html; ?>
 	<br />

@@ -138,16 +138,9 @@
 	
 		}
 	}	
-		
+	require_once('page_header.php')
 ?>
-
-<!DOCTYPE html>
-<html lang="et">
-  <head>
-    <meta charset="utf-8">
-	<title>Veebiprogrammeerimine</title>
-  </head>
-  <body>
+	<br />
 	<h1>Veebiprogrammeerimine</h1>
 	<p>See leht on valminud õppetöö raames ja ei sisalda mingisugust tõsiseltvõetavat sisu!</p>
 	<p>Õppetöö toimus <a href="https://www.tlu.ee/dt">Tallinna Ülikooli Digitehnoloogiate instituudis</a>.</p>
