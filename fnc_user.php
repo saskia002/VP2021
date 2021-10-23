@@ -76,6 +76,7 @@
 		//kui profiil on olemas, loeb kasutaja lühitutvustuse
 		$notice = null;
 		$conn = new mysqli($GLOBALS["server_host"], $GLOBALS["server_user_name"], $GLOBALS["server_password"], $GLOBALS["database"]);
+		$conn->set_charset("utf8");
 		//vaatame, kas on profiil olemas
 		$stmt = $conn->prepare("SELECT description FROM vp_userprofiles WHERE userid = ?");
 		echo $conn->error;
@@ -93,6 +94,7 @@
 	function store_user_profile($description, $bg_color, $txt_color){
 		$notice = null;
 		$conn = new mysqli($GLOBALS["server_host"], $GLOBALS["server_user_name"], $GLOBALS["server_password"], $GLOBALS["database"]);
+		$conn->set_charset("utf8");
 		//vaatame, kas on profiil olemas
 		$stmt = $conn->prepare("SELECT id FROM vp_userprofiles WHERE userid = ?");
 		echo $conn->error;
@@ -113,9 +115,9 @@
 			$stmt->bind_param("isss", $_SESSION["user_id"], $description, $bg_color, $txt_color);
 		}
 		if($stmt->execute()){
-			$notice = "Lõpuks läks andmebaasi! :)))))";
+			$notice = "\nEdukalt salvestatud!";
 		} else {
-			$notice = "Profiili salvestamisel tekkis viga:)))))) " .$stmt->error;
+			$notice = "\nProfiili salvestamisel tekkis viga: " .$stmt->error;
 		}
 		$stmt->close();
 		$conn->close();

@@ -27,124 +27,110 @@
 	  $confirm_password_error = null;
 	  
 	//Kontrollime sisestust
-	if($_SERVER['REQUEST_METHOD'] === 'POST'){
-		if(isset($_POST['user_data_submit'])){
-			
-			if(!empty($_POST['first_name_input']) and isset($_POST['first_name_input'])){
-				$name = test_input(filter_var($_POST['first_name_input'], FILTER_SANITIZE_STRING));
-				if(strlen($name) < 1){
-					$name_error = 'Palun sisesta eesnimi!';
-				}
-			}else{
-					$name_error = 'Palun sisesta eesnimi!';
-			}
-			
-			if(!empty($_POST['surname_input']) and isset($_POST['surname_input'])){
-				$surname = test_input(filter_var($_POST['surname_input'], FILTER_SANITIZE_STRING));
-				if(strlen($name) < 1){
-					$surname_error = 'Palun sisesta perekonnanimi!';
-				}
-			}else{
-					$surname_error = 'Palun sisesta perekonnanimi!';
-			}
-			
-			if(!empty($_POST['gender_input']) and isset($_POST['gender_input'])){
-				$gender = test_input(filter_var($_POST['gender_input'], FILTER_VALIDATE_INT));
-				if($gender != 1 and $gender != 2){
-					$gender_error = 'Palun vali sugu!';
-				}
-			}else{
-					$gender_error = 'Palun vali sugu!';
-			}
-			
-			//Kuupäeva sisestuse kontroll
-			
-			if(!empty($_POST['birth_day_input']) and isset($_POST['birth_day_input'])){
-				$birth_day = test_input(filter_var($_POST['birth_day_input'], FILTER_VALIDATE_INT));
-				if($birth_day > 31 and $birth_day < 1){
-					$birth_day_error = 'Palun vali sünnipäeva päev!';
-				}
-			}else{
-					$birth_day_error = 'Palun vali sünnipäeva päev!';
-			}
-			
-			if(!empty($_POST['birth_month_input']) and isset($_POST['birth_month_input'])){
-				$birth_month = test_input(filter_var($_POST['birth_month_input'], FILTER_VALIDATE_INT));
-				if($birth_month > 12 and $birth_month < 1){
-					$birth_month_error = 'Palun vali sünnipäeva kuu!';
-				}
-			}else{
-					$birth_month_error = 'Palun vali sünnipäeva kuu!';
-			}
-			
-			if(!empty($_POST['birth_year_input']) and isset($_POST['birth_year_input'])){
-				$birth_year = test_input(filter_var($_POST['birth_year_input'], FILTER_VALIDATE_INT));
-				if($birth_year < date("Y") -100 or $birth_year > date("Y") +13){
-					$birth_year_error = 'Palun vali sünnipäeva aasta';
-				}
-			}else{
-					$birth_year_error = 'Palun vali sünnipäeva aasta!';
-			}
-			
-			//emaili kontroll.
-			
-			if(!empty($_POST['email_input']) and isset($_POST['email_input'])){
-				$email = filter_var($_POST['email_input'], FILTER_VALIDATE_EMAIL);
-				if(strlen($email) < 5){
-					$email_error = '1Palun sisesta email!';
-				}
-			}else{
-					$email_error = '2Palun sisesta email!';
-			}
-			
-			//Valideerime kuupäeva ja paneme selle kokku.'
-			if((empty($birth_day_error)) and (empty($birth_month_error)) and (empty($birth_year_error))){
-				if(checkdate($birth_month, $birth_day, $birth_year)){
-					//moodustame kuupäeva
-					$temp_date = new DateTime($birth_year ."-" .$birth_month ."-" .$birth_day); //andmebaasi ootab ka seda formaati kuupäeva.
-					$birth_date = $temp_date->format("Y-m-d"); // nool on objektidele lähenemine
-				}else{
-					$birth_date_error = 'Valitud kuupäev on vigane!';
-				}
-			}else{
-				$birth_date_error = 'Valitud kuupäev on vigane!';
-			}
-			
-			
-			//Prool ning selle kordus.
-			
-			if(!empty($_POST['password_input']) and isset($_POST['password_input'])){
-				if(strlen($_POST['password_input']) < 8){
-					$password_error = 'Salasõna on liiga lühike';
-				}
-			}else{
-				$password_error = 'palun sisesta salasõna!';
-			}
-			
-			if(!empty($_POST['confirm_password_input']) and isset($_POST['confirm_password_input'])){
-				if($_POST['confirm_password_input'] !== $_POST['password_input']);
-					$confirm_password_error = null;//'Sisestatud salasõnad on erinevad.';
-			}else{
-				$confirm_password_error = 'Palun siesesta salasõna kaks korda!';
-			}
-			
-			//Kui vigu pole siis luuakse kasutaja. 
-			
-			if((empty($name_error)) and (empty($surname_error)) and (empty($birth_month_error)) and (empty($birth_year_error)) and (empty($birth_day_error)) and (empty($birth_date_error)) and (empty($gender_error)) and (empty($email_error)) and (empty($password_error)) and (empty($confirm_password_error))){
-				
-				$notice = store_new_user($name, $surname, $gender, $birth_date, $email, $_POST['password_input']);
-			}
-	
-	
-		}
-	}	
+    if($_SERVER["REQUEST_METHOD"] === "POST"){
+        if(isset($_POST["user_data_submit"])){
+            if(isset($_POST["first_name_input"]) and !empty($_POST["first_name_input"])){
+                $name = test_input(filter_var($_POST["first_name_input"], FILTER_SANITIZE_STRING));
+                if(strlen($name) < 1){
+                    $name_error = "Palun sisesta eesnimi!";
+                }
+            } else {
+                $name_error = "Palun sisesta eesnimi!";
+            }
+            
+            if(isset($_POST["surname_input"]) and !empty($_POST["surname_input"])){
+                $surname = test_input(filter_var($_POST["surname_input"], FILTER_SANITIZE_STRING));
+                if(strlen($surname) < 1){
+                    $surname_error = "Palun sisesta perekonnanimi!";
+                }
+            } else {
+                $surname_error = "Palun sisesta perekonnanimi!";
+            }
+            
+            if(isset($_POST["gender_input"]) and !empty($_POST["gender_input"])){
+                $gender = filter_var($_POST["gender_input"], FILTER_VALIDATE_INT);
+                if($gender != 1 and $gender != 2){
+                    $gender_error = "Palun märgi oma sugu!";
+                }
+            } else {
+                $gender_error = "Palun märgi oma sugu!";
+            }
+            
+            //kuupäeva sisestuse kontroll
+            if(isset($_POST["birth_day_input"]) and !empty($_POST["birth_day_input"])){
+                $birth_day = filter_var($_POST["birth_day_input"], FILTER_VALIDATE_INT);
+                if($birth_day < 1 or $birth_day > 31){
+                    $birth_day_error = "Palun vali sünni päev!";
+                }
+            } else {
+                $birth_day_error = "Palun vali sünni päev!";
+            }
+            
+            if(isset($_POST["birth_month_input"]) and !empty($_POST["birth_month_input"])){
+                $birth_month = filter_var($_POST["birth_month_input"], FILTER_VALIDATE_INT);
+                if($birth_month < 1 or $birth_month > 12){
+                    $birth_month_error = "Palun vali sünni kuu!";
+                }
+            } else {
+                $birth_month_error = "Palun vali sünni kuu!";
+            }
+            
+            if(isset($_POST["birth_year_input"]) and !empty($_POST["birth_year_input"])){
+                $birth_year = filter_var($_POST["birth_year_input"], FILTER_VALIDATE_INT);
+                if($birth_year < date("Y") - 110 or $birth_year > date("Y") - 13){
+                    $birth_year_error = "Palun vali sünni aasta!";
+                }
+            } else {
+                $birth_year_error = "Palun vali sünni aasta!";
+            }
+            
+            //valideerime kuupäeva ja paneme selle kokku
+            if(empty($birth_day_error) and empty($birth_month_error) and empty($birth_year_error)){
+                if(checkdate($birth_month, $birth_day, $birth_year)){
+                    //moodustame kuupäeva
+                    $temp_date = new DateTime($birth_year ."-" .$birth_month ."-" .$birth_day);
+                    $birth_date = $temp_date->format("Y-m-d"); 
+                } else {
+                    $birth_date_error = "Valitud kuupäev on vigane!";
+                }
+            }  
+                        
+            //kasutajatunnus ja parool
+            if(isset($_POST["email_input"]) and !empty($_POST["email_input"])){
+                $email = filter_var($_POST["email_input"], FILTER_VALIDATE_EMAIL);
+                if(strlen($email) < 5){
+                    $email_error = "Palun sisesta e-posti aadress kasutajatunnuseks!";
+                }
+            } else {
+                $email_error = "Palun sisesta e-posti aadress kasutajatunnuseks!";
+            }
+            
+            if(isset($_POST["password_input"]) and !empty($_POST["password_input"])){
+                if(strlen($_POST["password_input"]) < 8){
+                    $password_error = "Salasõna on liiga lühike!";
+                }
+            } else {
+                $password_error = "Palun sisesta salasõna!";
+            }
+            
+            if(isset($_POST["confirm_password_input"]) and !empty($_POST["confirm_password_input"])){
+                if($_POST["confirm_password_input"] != $_POST["password_input"]){
+                    $confirm_password_error = "Sisestatud salasõnad on erinevad!";
+                }
+            } else {
+                $confirm_password_error = "Palun sisesta salasõna kaks korda!";
+            }
+            
+            //kui vigu pole, siis salvestame uue kasutaja
+            if(empty($name_error) and empty($surname_error) and empty($birth_month_error) and empty($birth_year_error) and empty($birth_day_error) and empty($birth_date_error) and empty($gender_error) and empty($email_error) and empty($password_error) and empty($confirm_password_error)){
+                $notice = store_new_user($name, $surname, $gender, $birth_date, $email, $_POST["password_input"]);
+            }
+            
+        }//if isset lõppeb
+    }//id request_method lõppeb
 	require_once('page_header.php')
 ?>
 	<br />
-	<h1>Veebiprogrammeerimine</h1>
-	<p>See leht on valminud õppetöö raames ja ei sisalda mingisugust tõsiseltvõetavat sisu!</p>
-	<p>Õppetöö toimus <a href="https://www.tlu.ee/dt">Tallinna Ülikooli Digitehnoloogiate instituudis</a>.</p>
-	<hr>
     <h2>Loo endale kasutajakonto</h2>
 		
 	<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
@@ -211,7 +197,15 @@
 	  <input name="confirm_password_input" id="confirm_password_input" type="password"><span><?php echo $confirm_password_error; ?></span><br>
 	  <input name="user_data_submit" type="submit" value="Loo kasutaja"><span><?php echo $notice; ?></span>
 	</form>
+	<br />
+  </body>
+<footer>
 	<hr>
 	<p>Tagasi avalehele: <a href="page.php">Vajuta siia</p>
-  </body>
+	<hr>
+	<a href="?logout=1">Logi välja</a>
+	<i><b><p>Siimu veebileht.<br /></b>
+	<a href="mailto:siim02@tlu.ee">Saada mullle meil! :)</a><br />
+	<i>See leht on valminud õppetöö raames ja ei sisalda mingisugust tõsisevaltvõetavat sisu!</p></i>
+</footer>
 </html>

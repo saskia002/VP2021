@@ -1,23 +1,17 @@
 <?php
 	//alustame sessiooni
-    session_start();
+	require_once('page_session.php');
+	
     require_once("../../config.php");
     require_once("fnc_user.php");
 	
-	//välja logimine
-	if(isset($_GET["logout"])){
-        session_destroy();
-        header("Location: page.php");
-    }
+	//sõned
+	$todays_evaluation = null; //$todays_evaluation = "";
+	$inserted_adjective = null;
+	$adjective_error = null;
+	$inserted_username = null;
+	$login_error = null;
 	
-		//sõned
-		$author_name = "Siim";
-		$todays_evaluation = null; //$todays_evaluation = "";
-		$inserted_adjective = null;
-		$adjective_error = null;
-		$inserted_username = null;
-		$login_error = null;
-		
 		//kontrollin kas on klikitud submit nuppu
 		if(isset($_POST["todays_adjective_input"])){
 			//echo "Klikiti nuppu!";
@@ -92,11 +86,10 @@
 			$login_error = 'Palun kontrollige, et sisestatud andmed oleksid õiged!';
 		}
 		
-    }		
-	require('page_header.php');
+    }
+	
+require_once('page_header.php');	
 ?>
-	<i><h1><?php echo $author_name; ?>, Veebiprogrammeerimine</h1></i>
-	<hr>
 	<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
         <p><input type="email" name="email_input" placeholder="email" value="<?php echo htmlspecialchars($inserted_username); ?>">
         <input type="password" name="password_input" placeholder="salasõna">
@@ -114,7 +107,6 @@
 	<hr>
 	<?php
 		echo $todays_evaluation;
-		
 	?>
 	<form method="POST">
 		<?php echo $photo_select_html; ?>
@@ -126,13 +118,5 @@
 		echo "<hr> \n";
 		echo $list_html;
 	?>
-<br />
 </body>
-<footer>
-	<br />
-	<a href="?logout=1">Logi välja</a>
-	<i><b><p>Siimu veebileht.<br /></b>
-	<a href="mailto:siim02@tlu.ee">Saada mullle meil! :)</a><br />
-	<i>See leht on valminud õppetöö raames ja ei sisalda mingisugust tõsisevaltvõetavat sisu!</p></i>
-</footer>
-</html>
+<?php require_once('page_footer.php'); ?>
