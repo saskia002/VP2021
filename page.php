@@ -1,9 +1,8 @@
 <?php
-	//alustame sessiooni
-	require_once('page_session.php');
-	
-    require_once("../../config.php");
-    require_once("fnc_user.php");
+//alustame sessiooni
+require_once('page_session.php');
+require_once("../../config.php");
+require_once("fnc_user.php");
 	
 	//sõned
 	$todays_evaluation = null; //$todays_evaluation = "";
@@ -87,17 +86,8 @@
 		}
 		
     }
-	
 require_once('page_header.php');	
 ?>
-	<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-        <p><input type="email" name="email_input" placeholder="email" value="<?php echo htmlspecialchars($inserted_username); ?>">
-        <input type="password" name="password_input" placeholder="salasõna">
-        <input type="submit" name="login_submit" value="Logi sisse"><?php echo '    '; echo $login_error; ?></p>
-    </form>
-	<p><a href="add_user.php">Loo endale kasutaja</a></p>
-	<hr>
-	
 	<form method='POST'>
 		<input type='text' name='adjective_input' placeholder='omadussõna tänase kohta' value='<?php echo $inserted_adjective; ?>'>
 		<input type='submit' name='todays_addjetive_input' value='Saada ära!'>
@@ -118,5 +108,4 @@ require_once('page_header.php');
 		echo "<hr> \n";
 		echo $list_html;
 	?>
-</body>
 <?php require_once('page_footer.php'); ?>

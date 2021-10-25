@@ -19,7 +19,7 @@
     
     require("page_header.php");
 ?>
-    <h2>Kasutajaprofiili</h2>
+    <h2>Kasutajaprofiil</h2>
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
         <label for="description_input">Minu lühikirjeldus</label>
         <br />

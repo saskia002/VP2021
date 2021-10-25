@@ -70,9 +70,6 @@
 	
     require("page_header.php");
 ?>
-
-	<h1><?php echo $_SESSION["first_name"] ." " .$_SESSION["last_name"]; ?>, veebiprogrammeerimine</h1>
-	<hr>
     <h2>Filmi info seostamine</h2>
 	<h3>Film, inimene ja tema roll</h3>
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
