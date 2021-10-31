@@ -71,10 +71,7 @@
 			display: block;
 			color: white;
 			text-align: center;
-			padding: 2px 8px;
-			padding-left: 4px;
-			padding-top: 4px;
-			padding-bottom: 2px;
+			padding: 4px 8px 4px 8px;
 			text-decoration: none;
 		}
 		ul.topnav li a:hover:not(.active) {background-color: #111;}
