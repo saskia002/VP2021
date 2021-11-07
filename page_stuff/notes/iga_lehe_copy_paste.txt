@@ -17,6 +17,6 @@
 
 
 $database = "if21_siim_kr";
-	require_once('fnc_general.php');
+require_once('./page_fnc/fnc_general.php');
 
 //echo $server_host;

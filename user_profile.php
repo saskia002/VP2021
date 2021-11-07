@@ -1,7 +1,6 @@
 <?php
     //alustame sessiooni
 	require_once('./page_stuff/page_session.php');
-	
     require_once("../../config.php");
 	require_once("./page_fnc/fnc_user.php");
     require_once("./page_fnc/fnc_general.php");
