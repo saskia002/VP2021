@@ -1,19 +1,18 @@
 <?php
-//alustame sessiooni
+//alustame...
 require_once('./page_stuff/page_session.php');
 require_once("../../config.php");
 require_once("./page_fnc/fnc_photo_upload.php");
 require_once("./page_fnc/fnc_general.php");
 require_once("./classes/Photo_upload.class.php"); //photo üleslaadimise klass.
 
+//sõned.
 $photo_error = null;
 $photo_upload_notice = null;
 $normal_photo_max_width = 600;
 $normal_photo_max_height = 400;
 $watermark_file = "./photos_2/pics/vp_logo_color_w100_overlay.png";
-
 $thumbnail_width = $thumbnail_height = 100;
-
 $file_type = null;
 $file_name = null;
 $alt_text = null;
@@ -22,24 +21,25 @@ $photo_filename_prefix = "vp_";
 $photo_upload_size_limit = 1024 * 1024;
 $photo_size_ratio = 1;
 
+//pildi värk.
 if(isset($_POST["photo_submit"])){
     if(isset($_FILES["photo_input"]["tmp_name"]) and !empty($_FILES["photo_input"]["tmp_name"])){
-        //kas on pilt ja mis tüüpi?
-        $image_check = getimagesize($_FILES["photo_input"]["tmp_name"]);
-        if($image_check !== false){
-            if($image_check["mime"] == "image/jpeg"){
-                $file_type = "jpg";
-            }
-            if($image_check["mime"] == "image/png"){
-                $file_type = "png";
-            }
-            if($image_check["mime"] == "image/gif"){
-                $file_type = "gif";
-            }
-            //var_dump($image_check);
-        } else {
-            $photo_error = "Valitud fail ei ole pilt!";
-        }
+			/*     //kas on pilt ja mis tüüpi?
+				$image_check = getimagesize($_FILES["photo_input"]["tmp_name"]);
+				if($image_check !== false){
+					if($image_check["mime"] == "image/jpeg"){
+						$file_type = "jpg";
+					}
+					if($image_check["mime"] == "image/png"){
+						$file_type = "png";
+					}
+					if($image_check["mime"] == "image/gif"){
+						$file_type = "gif";
+					}
+					//var_dump($image_check);
+				} else {
+					$photo_error = "Valitud fail ei ole pilt!";
+				} */
         
         //Kas on lubatud suurusega?
         if(empty($photo_error) and $_FILES["photo_input"]["size"] > $photo_upload_size_limit){
@@ -64,16 +64,14 @@ if(isset($_POST["photo_submit"])){
         
         
         if(empty($photo_error)){
-            //teen ajatempli
-            $time_stamp = microtime(1) * 10000;
-            
-            //moodustan failinime, kasutame eesliidet
-            $file_name = $photo_filename_prefix ."_" .$time_stamp ."." .$file_type;
             
 			
 			
 			//Võtame kasutusele klassi.
-			$photo_upload = new Photo_upload($_FILES["photo_input"], $file_type); //see sialdab kõike mis vaja (($_FILES["photo_input"]))... ;;; saadan ka failityybi kuna vaja....
+			$photo_upload = new Photo_upload($_FILES["photo_input"]); //see sialdab kõike mis vaja (($_FILES["photo_input"]))... ;;; saadan ka failityybi kuna vaja....
+			
+			//faili nime värk....
+            $photo_upload->file_name($photo_filename_prefix);
 			
             //...
             
@@ -88,21 +86,21 @@ if(isset($_POST["photo_submit"])){
             //salvestan
 				//$photo_upload_notice = "Vähendatud pildi " .save_image($my_new_temp_image, $file_type, $photo_normal_upload_dir .$file_name);
 				//imagedestroy($my_new_temp_image);
-            $photo_upload_notice = "Vähendatud pildi " .$photo_upload->save_image($photo_normal_upload_dir .$file_name);
+            $photo_upload_notice = "Vähendatud pildi " .$photo_upload->save_image($photo_normal_upload_dir);
 			
             //teen pisipildi
 				//$my_new_temp_image = resize_photo($my_temp_image, $thumbnail_width, $thumbnail_height, false);
 				//$photo_upload_notice .= " Pisipildi " .save_image($my_new_temp_image, $file_type, $photo_thumbnail_upload_dir .$file_name);
 				//imagedestroy($my_new_temp_image);
 			$photo_upload->resize_photo($thumbnail_width, $thumbnail_height);
-			$photo_upload_notice .= " Pisipildi " .$photo_upload->save_image($photo_thumbnail_upload_dir .$file_name);
+			$photo_upload_notice .= " Pisipildi " .$photo_upload->save_image($photo_thumbnail_upload_dir);
 				//imagedestroy($my_temp_image);
             
 			//kustutan kõik klassist ära.
 			unset($photo_upload);
 			
             //kopeerime pildi originaalkujul, originaalnimega vajalikku kataloogi
-            if(move_uploaded_file($_FILES["photo_input"]["tmp_name"], $photo_orig_upload_dir .$file_name)){
+           /*  if(move_uploaded_file($_FILES["photo_input"]["tmp_name"], $photo_orig_upload_dir .$photo_upload->file_name($photo_filename_prefix))){
                 $photo_upload_notice .= " Originaalfoto laeti üles!";
                 //$photo_upload_notice = store_person_photo($file_name, $_POST["person_for_photo_input"]);
             } else {
@@ -111,7 +109,7 @@ if(isset($_POST["photo_submit"])){
             
             $photo_upload_notice .= " " .store_photo_data($file_name, $alt_text, $privacy);
             $alt_text = null;
-            $privacy = 1;
+            $privacy = 1; */
         }
     } else {
         $photo_error = "Pildifaili pole valitud!";

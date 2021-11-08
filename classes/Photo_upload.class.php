@@ -7,10 +7,27 @@
 		private $file_type;
 		private $my_temp_image;
 		private $my_new_image;
+		private $photo_error;
+		public	$file_name;
 		
-		function __construct($photo, $type){
+		function __construct($photo){
 			$this->photo_to_upload = $photo;
-			$this->file_type = $type; //hiljem teeb selle klass ise kindlaks.
+			
+			//kas on pilt ja mis tüüpi?
+			$image_check = getimagesize($photo["tmp_name"]);
+			if($image_check !== false){
+				if($image_check["mime"] == "image/jpeg"){
+					$this->file_type = "jpg";
+				}
+				if($image_check["mime"] == "image/png"){
+					$this->file_type = "png";
+				}
+				if($image_check["mime"] == "image/gif"){
+					$this->file_type = "gif";
+				} 
+			} else {
+				$this->photo_error = True;
+			}
 			$this->my_temp_image = $this->create_image_from_file($this->photo_to_upload["tmp_name"], $this->file_type);
 		}
 		
@@ -20,17 +37,26 @@
 			}
 		}
 		
-		private function create_image_from_file($file, $file_type = "png"){ //pikslikogumi loomine fnc.
+		public function file_name($photo_filename_prefix){
+			//teen ajatempli
+            $time_stamp = microtime(1) * 10000;
+            
+            //moodustan failinime, kasutame eesliidet
+            $this->file_name = $photo_filename_prefix ."_" .$time_stamp ."." .$this->file_type;
+			return $this->file_name;
+		}
+				
+		public function create_image_from_file($file){ //pikslikogumi loomine fnc.
 			$my_temp_image = null;
 			
 			//teen graafikaobjekti, image objekti
-            if($file_type == "jpg"){
+            if($this->file_type == "jpg"){
                 $my_temp_image = imagecreatefromjpeg($file);
             }
-            if($file_type == "png"){
+            if($this->file_type == "png"){
                 $my_temp_image = imagecreatefrompng($file);
             }
-            if($file_type == "gif"){
+            if($this->file_type == "gif"){
                 $my_temp_image = imagecreatefromgif($file);
             }
 			
@@ -92,11 +118,11 @@
 			imagedestroy($watermark);
 		}
 		
-		public function save_image($target){
+		public function save_image($upload_directory){
 			$notice = null;
 			
 			if($this->file_type == "jpg"){
-				if(imagejpeg($this->my_new_image, $target, 90)){
+				if(imagejpeg($this->my_new_image, $upload_directory .$this->file_name, 90)){
 					$notice = "salvestamine õnnestus!";
 				} else {
 					$notice = "salvestamisel tekkis tõrge!";
@@ -104,7 +130,7 @@
 			}
 			
 			if($this->file_type == "png"){
-				if(imagepng($this->my_new_image, $target, 6)){
+				if(imagepng($this->my_new_image, $upload_directory .$this->file_name, 6)){
 					$notice = "salvestamine õnnestus!";
 				} else {
 					$notice = "salvestamisel tekkis tõrge!";
@@ -112,7 +138,7 @@
 			}
 			
 			if($this->file_type == "gif"){
-				if(imagegif($this->my_new_image, $target)){
+				if(imagegif($this->my_new_image, $upload_directory .$this->file_name)){
 					$notice = "salvestamine õnnestus!";
 				} else {
 					$notice = "salvestamisel tekkis tõrge!";
