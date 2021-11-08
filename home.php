@@ -1,4 +1,20 @@
-<?php require_once('./page_stuff/page_session.php'); require_once('./page_stuff/page_header.php'); ?>
+<?php 
+require_once('./page_stuff/page_session.php'); 
+
+	//testime klassi
+	require_once("./classes/Test.class.php");
+	$my_test_object = new Test();
+
+
+
+
+
+
+
+
+
+require_once('./page_stuff/page_header.php'); 
+?>
     <ul>
 		<li><a href="add_films.php">Lisage filme andmebaasi</a></li><br />
 		<li><a href="list_films.php">Andmebaasi lisatud failide list</a></li><br />

@@ -4,6 +4,7 @@ require_once('./page_stuff/page_session.php');
 require_once("../../config.php");
 require_once("./page_fnc/fnc_photo_upload.php");
 require_once("./page_fnc/fnc_general.php");
+require_once("./classes/Photo_upload.class.php"); //photo üleslaadimise klass.
 
 $photo_error = null;
 $photo_upload_notice = null;
@@ -69,20 +70,17 @@ if(isset($_POST["photo_submit"])){
             //moodustan failinime, kasutame eesliidet
             $file_name = $photo_filename_prefix ."_" .$time_stamp ."." .$file_type;
             
-            //teen graafikaobjekti, image objekti
-            if($file_type == "jpg"){
-                $my_temp_image = imagecreatefromjpeg($_FILES["photo_input"]["tmp_name"]);
-            }
-            if($file_type == "png"){
-                $my_temp_image = imagecreatefrompng($_FILES["photo_input"]["tmp_name"]);
-            }
-            if($file_type == "gif"){
-                $my_temp_image = imagecreatefromgif($_FILES["photo_input"]["tmp_name"]);
-            }
+			
+			
+			//Võtame kasutusele klassi.
+			$photo_upload = new Photo_upload($_FILES["photo_input"], $file_type); //see sialdab kõike mis vaja (($_FILES["photo_input"]))... ;;; saadan ka failityybi kuna vaja....
+			
+            //...
             
-            //loome uue pikslikogumi
-            $my_new_temp_image = resize_photo($my_temp_image, $normal_photo_max_width, $normal_photo_max_height);
-                            
+            //loome uue pikslikogumi //suuruse muutmine.
+            //$my_new_temp_image = resize_photo($my_temp_image, $normal_photo_max_width, $normal_photo_max_height);
+            
+			$photo_upload->resize_photo($normal_photo_max_width, $normal_photo_max_height);
             //lisan vesimärgi
             
             add_watermark($my_new_temp_image, $watermark_file);
