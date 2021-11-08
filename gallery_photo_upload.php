@@ -78,24 +78,29 @@ if(isset($_POST["photo_submit"])){
             //...
             
             //loome uue pikslikogumi //suuruse muutmine.
-            //$my_new_temp_image = resize_photo($my_temp_image, $normal_photo_max_width, $normal_photo_max_height);
-            
+				//$my_new_temp_image = resize_photo($my_temp_image, $normal_photo_max_width, $normal_photo_max_height);
 			$photo_upload->resize_photo($normal_photo_max_width, $normal_photo_max_height);
-            //lisan vesimärgi
             
-            add_watermark($my_new_temp_image, $watermark_file);
-            
+			//lisan vesimärgi
+				//add_watermark($my_new_temp_image, $watermark_file);
+            $photo_upload->add_watermark($watermark_file);
+			
             //salvestan
-            $photo_upload_notice = "Vähendatud pildi " .save_image($my_new_temp_image, $file_type, $photo_normal_upload_dir .$file_name);
-            imagedestroy($my_new_temp_image);
-            
+				//$photo_upload_notice = "Vähendatud pildi " .save_image($my_new_temp_image, $file_type, $photo_normal_upload_dir .$file_name);
+				//imagedestroy($my_new_temp_image);
+            $photo_upload_notice = "Vähendatud pildi " .$photo_upload->save_image($photo_normal_upload_dir .$file_name);
+			
             //teen pisipildi
-            $my_new_temp_image = resize_photo($my_temp_image, $thumbnail_width, $thumbnail_height, false);
-            $photo_upload_notice .= " Pisipildi " .save_image($my_new_temp_image, $file_type, $photo_thumbnail_upload_dir .$file_name);
-            imagedestroy($my_new_temp_image);
+				//$my_new_temp_image = resize_photo($my_temp_image, $thumbnail_width, $thumbnail_height, false);
+				//$photo_upload_notice .= " Pisipildi " .save_image($my_new_temp_image, $file_type, $photo_thumbnail_upload_dir .$file_name);
+				//imagedestroy($my_new_temp_image);
+			$photo_upload->resize_photo($thumbnail_width, $thumbnail_height);
+			$photo_upload_notice .= " Pisipildi " .$photo_upload->save_image($photo_thumbnail_upload_dir .$file_name);
+				//imagedestroy($my_temp_image);
             
-            imagedestroy($my_temp_image);
-            
+			//kustutan kõik klassist ära.
+			unset($photo_upload);
+			
             //kopeerime pildi originaalkujul, originaalnimega vajalikku kataloogi
             if(move_uploaded_file($_FILES["photo_input"]["tmp_name"], $photo_orig_upload_dir .$file_name)){
                 $photo_upload_notice .= " Originaalfoto laeti üles!";

@@ -2,16 +2,8 @@
 require_once('./page_stuff/page_session.php'); 
 
 	//testime klassi
-	require_once("./classes/Test.class.php");
-	$my_test_object = new Test();
-
-
-
-
-
-
-
-
+	//require_once("./classes/Test.class.php");
+	//$my_test_object = new Test();
 
 require_once('./page_stuff/page_header.php'); 
 ?>
