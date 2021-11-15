@@ -1,16 +1,17 @@
 <?php
     $css_color = null;	
 	//värvi saad siit if statemendiga kaudu paika sättida. ja kui ei ss deafult
-	$def_bg_color = "#AAA";
-	$def_text_color = "#101010";
+	//$def_bg_color = "#AAA";
+	//$def_text_color = "#101010";
 	
 	if(isset($_SESSION["user_id"])){
+		$css_color = "<style>" ."\n";
+		$css_color .= "body {" ."\n";
 		$css_color .= "\tbackground-color: " .$_SESSION["bg_color"] ."; \n";
 		$css_color .= "\tcolor: " .$_SESSION["text_color"] ."; \n";
-    }else{	
-		$css_color .= "\tbackground-color: " .$def_bg_color ."; \n";
-		$css_color .= "\tcolor: " .$def_text_color ."; \n";
-	}
+		$css_color .= "}" ."\n";
+		$css_color .= "</style>";
+    }
 	//näitan kas kasutaja nime või looja nime
 	$author_name = "Siim";
 	$user_status_header_head = null;
@@ -23,72 +24,22 @@
 		$user_status_header_body = '<i><h1>'. $author_name. ', Veebiprogrammeerimine</h1></i>';
 	}
 	//kui on sisse logitud näita kasutaja nime ja kui ei siis looja nime.
-
+	$page_icon = '<link rel="shortcut icon" type="image/jpg" href="./photos_2/pics/vp_logo_w100_overlay.png"/>';
+	$page_css = '<link rel="stylesheet" type="text/css" href="style/page_style.css">';
 ?>
 <!DOCTYPE html>
 <html lang="et">
 <head>
 	<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
 	<?php 
-		echo $user_status_header_head; echo "\n";
+		echo $user_status_header_head;
+		echo $page_icon;
+		echo $css_color;
+		echo $page_css;
 		if(isset($to_head) and !empty($to_head)){
 			echo $to_head;
 		}
 	?>
-	<style>
-		html {
-			height: 100%;
-		}
-		body {
-			<?php echo $css_color; ?>
-			display: flex; 
-			flex-direction: column; 
-			min-height: 100%;
-			max-width: 960px;
-			margin: auto;
-		}
-		.center {
-			display: block;
-			margin-left: auto;
-			margin-right: auto;
-			width: 95%;
-		}
-		footer {
-			margin-top:auto; 
-			bottom: 0px;
-			text-align: center;
-			align-items:center;
-			font-size: 14px;
-		}
-		ul.topnav {
-			position: -webkit-sticky; /* Safari */
-			position: sticky;
-			top: 0;
-			list-style-type: none;
-			margin: 0;
-			padding: 0;
-			overflow: hidden;
-			background-color: gray;
-		}
-		ul.topnav li {
-			float: left;
-		}
-		ul.topnav li a {
-			display: block;
-			color: white;
-			text-align: center;
-			padding: 4px 8px 4px 8px;
-			text-decoration: none;
-		}
-		ul.topnav li a:hover:not(.active) {background-color: #111;}
-		ul.topnav li a.active {background-color: #04AA6D;}
-	</style>
-	    <?php
-        if(isset($to_head) and !empty($to_head)){
-            echo $to_head;
-        }
-    ?>
-
 </head>
 <body>
 	<?php require_once('page_navbar.php'); ?>

@@ -1,10 +1,5 @@
 <?php 
 require_once('./page_stuff/page_session.php'); 
-
-	//testime klassi
-	//require_once("./classes/Test.class.php");
-	//$my_test_object = new Test();
-
 require_once('./page_stuff/page_header.php'); 
 ?>
     <ul>
@@ -16,5 +11,4 @@ require_once('./page_stuff/page_header.php');
 		<li><a href="gallery_public.php">Fotode galerii</a></li><br />
 		<li><a href="gallery_own.php">Minu fotode galerii</a></li><br />
 	</ul> 
-</body>
 <?php require_once('./page_stuff/page_footer.php'); ?>
