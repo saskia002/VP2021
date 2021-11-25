@@ -1,7 +1,9 @@
 <?php
     //alustame sessiooni
-    session_start();
-    
+    //session_start();
+    require_once("./classes/SessionManager.class.php");
+	SessionManager::sessionStart("VP", 0, "~/siikri/public_html/", "greeny.cs.tlu.ee");
+
 	//kas on page.php
 	$page_path = basename($_SERVER["REQUEST_URI"], ".php");
 	$page_file_name = 'page';
@@ -17,6 +19,4 @@
         session_destroy();
         header("Location: page.php");
     }
-	
-	/* require_once('page_session.php'); */
 ?>

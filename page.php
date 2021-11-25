@@ -4,7 +4,7 @@ require_once('./page_stuff/page_session.php');
 require_once("../../config.php");
 require_once("./page_fnc/fnc_user.php");
 require_once("./page_fnc/fnc_gallery.php");
-	
+//var_dump($_COOKIE);
 
 	//sõned
 	$todays_evaluation = null; //$todays_evaluation = "";

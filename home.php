@@ -1,6 +1,18 @@
 <?php 
 require_once('./page_stuff/page_session.php'); 
+	//Küpsiste test.
+	setcookie("vpvisitor", $_SESSION["first_name"] ." " .$_SESSION["last_name"], time() + (86400 * 8), "~/siikri/public_html/", "greeny.cs.tlu.ee", isset($_SERVER["HTTPS"]), true);
+	$last_visitor = null;
+	if(isset($_COOKIE["vpvisitor"])){
+		$last_visitor = "<p>Viimati külastas lehte: " .$_COOKIE["vpvisitor"] ."</p> \n";
+	}else{
+		$last_visitor = "<p>Küpsiseid ei leitud</p>";
+	}
+	//küpsiste kustutamiseks talle varasem aegumine.
+	//setcookie("vpvisitor", $_SESSION["first_name"] ." " .$_SESSION["last_name"], time() -3600, "~/siikri/public_html/", "greeny.cs.tlu.ee", isset($_SERVER["HTTPS"]), true);
+	//var_dump($_COOKIE);
 require_once('./page_stuff/page_header.php'); 
+
 ?>
     <ul>
 		<li><a href="add_films.php">Lisage filme andmebaasi</a></li><br />
@@ -10,5 +22,10 @@ require_once('./page_stuff/page_header.php');
 		<li><a href="gallery_photo_upload.php">Fotode üleslaadimine</a></li><br />
 		<li><a href="gallery_public.php">Fotode galerii</a></li><br />
 		<li><a href="gallery_own.php">Minu fotode galerii</a></li><br />
+		<li><a href="add_news.php">Uudiste lisamine</a></li><br />
 	</ul> 
-<?php require_once('./page_stuff/page_footer.php'); ?>
+<?php 
+	echo $last_visitor; 
+	require_once('./page_stuff/page_footer.php'); 
+	
+?>
