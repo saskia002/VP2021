@@ -1,5 +1,4 @@
 <?php
-
     class Photoupload {
         private $photo_to_upload;
         public $file_type;

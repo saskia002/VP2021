@@ -105,3 +105,21 @@
 		$conn->close();
 		return $notice;
 	}
+
+	function store_news_photo_data($image_file_name){
+		$notice = null;
+		$conn = new mysqli($GLOBALS["server_host"], $GLOBALS["server_user_name"], $GLOBALS["server_password"], $GLOBALS["database"]);
+		$conn->set_charset("utf8");
+		$stmt = $conn->prepare("INSERT INTO vp_newsphotos (filename, userid) VALUES (?, ?)");
+		echo $conn->error;
+		$stmt->bind_param("si", $image_file_name, $_SESSION["user_id"]);
+		if($stmt->execute()){
+		  $notice = "Uudise foto lisati andmebaasi!";
+		} else {
+		  $notice = "uudise foto lisamisel andmebaasi tekkis tõrge: " .$stmt->error;
+		}
+		
+		$stmt->close();
+		$conn->close();
+		return $notice;
+	}
