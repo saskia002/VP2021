@@ -3,9 +3,59 @@
 	require_once('fnc_general.php');
 	require_once("../../config.php");
 
+	////SELECT filename FROM vp_news AS N JOIN vp_newsphotos AS NP ON NP.id = N.photoid; // SELECT filename FROM vp_newsphotos AS NP JOIN vp_news AS N ON N.photoid = NP.id
+	function get_news_photo_file_name_from_id($photo_id_news_from_db){
+
+		$notice = null;
+		$conn = new mysqli($GLOBALS["server_host"], $GLOBALS["server_user_name"], $GLOBALS["server_password"], $GLOBALS["database"]);
+		$conn->set_charset("utf8");
+
+		$stmt = $conn->prepare("SELECT filename FROM vp_newsphotos AS NP JOIN vp_news AS N ON N.photoid = NP.id WHERE N.photoid = ?");
+		echo $conn->error;
+		$stmt->bind_param("i", $photo_id_news_from_db);
+		$stmt->bind_result($photo_file_name_news_from_db);
+		
+		$stmt->execute();
+		$stmt->fetch();
+
+		$notice = $photo_file_name_news_from_db;
+
+		$stmt->close();
+		$conn->close();
+		return $notice;
+	}
+
+	function read_all_fresh_news_logged_in_usr(){
+		$notice = null;
+		$conn = new mysqli($GLOBALS["server_host"], $GLOBALS["server_user_name"], $GLOBALS["server_password"], $GLOBALS["database"]);
+		$conn->set_charset("utf8");
+		$stmt = $conn->prepare("SELECT title, firstname, lastname, added, content, photoid FROM vp_users AS U JOIN vp_news AS N ON U.id = N.userid where expire >= CURRENT_TIMESTAMP"); //WHERE added <= (SELECT expire FROM vp_news)
+		echo $conn->error;
+		$stmt->bind_result($news_title_from_db, $firstname_news_from_db, $lastname_news_from_db, $added_news_from_db, $news_content_from_db, $photo_id_news_from_db);
+
+		$stmt->execute();
+		while($stmt->fetch()){
+			$notice .= '</div><div style="width: 960px"><hr></div>' ."\n";
+			$notice .= '<div class="center body">' ."\n";
+			$notice .= "<h3>" .$news_title_from_db ."</h3>\n";
+			$est_date =	date_to_est_format($added_news_from_db);
+			$notice .= "<p><b>" .$firstname_news_from_db ." " .$lastname_news_from_db  ."</b><i>" ." - " .$est_date ."</i></p>\n";
+			$notice .= htmlspecialchars_decode($news_content_from_db, ENT_SUBSTITUTE) ."\n";
+			if($photo_id_news_from_db != null){
+				$photo_file_name = get_news_photo_file_name_from_id($photo_id_news_from_db);
+				$notice .= '<p style="text-align: center;"><img src="'.$GLOBALS["news_photo_normal_upload_dir"] .$photo_file_name .'" alt="Uudise pilt"></p>' ."\n";
+			}
+		}if($notice ==  null){
+			$notice = "Värskeid uudiseid pole hetkel :( ";
+		}
+
+		$stmt->close();
+		$conn->close();
+		return $notice;
+	}
+
 	function store_news_photo_data($image_file_name){
 		$notice = null;
-
 		$conn = new mysqli($GLOBALS["server_host"], $GLOBALS["server_user_name"], $GLOBALS["server_password"], $GLOBALS["database"]);
 		$conn->set_charset("utf8");
 		$stmt = $conn->prepare("INSERT INTO vp_newsphotos (filename, userid) VALUES (?, ?)");

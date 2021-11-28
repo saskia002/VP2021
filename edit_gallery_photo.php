@@ -6,6 +6,10 @@
 	
 	$update_photo_notice = null;
 	
+	//Pilid Näitamine.
+	$show_picture = show_photo();
+
+
 	if(isset($_GET["photo"]) and !empty($_GET["photo"])){
 		//loeme pildi ja teeme vormi kuhu loeme pildi andmed
 		$_SESSION["photo"] = $_GET["photo"];
@@ -17,10 +21,7 @@
 		} else {
 			$update_photo_notice = "Valitud pildi andmeid ei saa muuta";
 		}
-	}/* else {
-		//tagasi eelmisena vaadatud lehele
-		header("Location: gallery_home.php");
-	}*/
+	}
 	
 	if(isset($_POST["photo_submit"])){
 		if(!empty($_POST["alt_input"]) and !empty($_POST["privacy_input"])){
@@ -34,37 +35,49 @@
 	
 	if(isset($_POST["photo_delete"])){
 		$update_photo_notice = delete_photo($_SESSION["photo"]);
+		$privacy = 1;
+		$alt_text = null;
+		$show_picture = '<p><b>*Pilt, mille sa just ära kustutasid*</b></p>';
 	}
 	
 	require("./page_stuff/page_header.php");
 ?>
 	<h2>Minu laetud foto andmete muutmine</h2>
-	<?php //echo read_public_photo_thumbs($page_limit, $page); ?>
-	<?php echo show_photo(); ?>
-	<div>
-		<br />
-	</div>
+	<?php echo $show_picture; ?>
 	<form method = "POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-		<label for="alt_input">Alternatiivtekst (alt): </label>
-		<input type="text" name="alt_input" id="alt_input" placeholder="Alternatiivtekst" value="<?php echo $alt_text; ?>">
-		<div>
-			<br />
+
+		<div style="padding-top:12px">
+			<label for="alt_input">Alternatiivtekst (alt): </label>
+			<input type="text" name="alt_input" id="alt_input" placeholder="Alternatiivtekst" value="<?php echo $alt_text; ?>">
 		</div>
-		<input type="radio" name="privacy_input" id="privacy_input_1" value="1" <?php if($privacy == 1){echo " checked"; }?>>
-		<label for="privacy_input_1">Privaatne (ainult mina näen)</label>
-		<br />
-		<input type="radio" name="privacy_input" id="privacy_input_2" value="2" <?php if($privacy == 2){echo " checked"; }?>>
-		<label for="privacy_input_2">Sisseloginud kasutajatele</label>
-		<br />
-		<input type="radio" name="privacy_input" id="privacy_input_3" value="3" <?php if($privacy == 3){echo " checked"; }?>>
-		<label for="privacy_input_3">Avalik (kõik näevad)</label>
-		<div>
-			<br />
+
+		<div style="padding-top:12px">
+			<input type="radio" name="privacy_input" id="privacy_input_1" value="1" <?php if($privacy == 1){echo " checked"; }?>>
+			<label for="privacy_input_1">Privaatne (ainult mina näen)</label>
 		</div>
-		<input type="submit" name="photo_submit" value="Uuenda pildi andmeid">
-	</form><br />
+
+		<div style="padding-top:4px">
+			<input type="radio" name="privacy_input" id="privacy_input_2" value="2" <?php if($privacy == 2){echo " checked"; }?>>
+			<label for="privacy_input_2">Sisseloginud kasutajatele</label>
+		</div>
+
+		<div style="padding-top:4px">
+			<input type="radio" name="privacy_input" id="privacy_input_3" value="3" <?php if($privacy == 3){echo " checked"; }?>>
+			<label for="privacy_input_3">Avalik (kõik näevad)</label>
+		</div>
+
+		<div style="padding-top:14px">
+			<input type="submit" name="photo_submit" value="Uuenda pildi andmeid">
+		</div>
+	</form>
+
+	<div style="padding-top:6px">
 	<form method = "POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 		<input type="submit" name="photo_delete" value="Kustuta foto">
 	</form>
-	<?php echo $update_photo_notice; ?>
+	</div>
+
+	<div style="padding-top:4px">
+		<?php echo $update_photo_notice; ?>
+	</div>
 <?php require_once('./page_stuff/page_footer.php'); ?>

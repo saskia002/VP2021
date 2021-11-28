@@ -38,7 +38,7 @@
 		//seda v6ib if ja while sisse panna ja for each ka.
 		
 		while($stmt->fetch()){
-			$films_html .="<h3>" .$title_from_db ."</h3> \n";
+			$films_html .= "<h3>" .$title_from_db ."</h3> \n";
 			$films_html .= "<ul> \n";
 			$films_html .= "<li>Valmimisaasta: ". $year_from_db ."</li> \n";
 			$films_html .= "<li>Kestvus: ". $duration_from_db ."</li> \n";

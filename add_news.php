@@ -41,10 +41,12 @@ require_once("./classes/Photo_upload.class.php"); //photo üleslaadimise klass.
 		if(!empty($_POST["news_input"]) and isset($_POST["news_input"])){
 			$news_input_post = $_POST["news_input"];
 			$news_input_html = htmlspecialchars($_POST["news_input"]);
-			$news_text = test_input(filter_var($news_input_html, FILTER_SANITIZE_STRING));
+			$news_text = filter_var($news_input_html, FILTER_SANITIZE_STRING);
 		}else{
 			$error_notice = "Kõik väljad pole täidetud!\n";
 		}
+
+		
 
 		if(!empty($_POST["expire_input"]) and isset($_POST["expire_input"])){
 			$news_expire = filter_var($_POST["expire_input"], FILTER_SANITIZE_NUMBER_INT);
@@ -112,26 +114,33 @@ require_once("./classes/Photo_upload.class.php"); //photo üleslaadimise klass.
 ?>
     <h2>Uuudise lisamine</h2>
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" enctype="multipart/form-data">
-		<label for="title_input">Uudise pealkiri.</label>
-			<input type="text" id="title_input" name="title_input" value="<?php echo $title_input_post; ?>">
+		<div style="padding-top:4px">
+			<label for="title_input">Uudise pealkiri: </label>
+				<input type="text" id="title_input" name="title_input" value="<?php echo $title_input_post; ?>">
+		</div>
+
+		<div style="padding-top:8px">
+			<label for="news_input" >Uudise tekst: </label>
 				<div style="padding-top:6px"></div>
+				<textarea id="news_input" name="news_input"><?php echo $news_input_post; ?></textarea>
+				<script>CKEDITOR.replace('news_input');</script>
+		</div>
 
-		<label for="news_input" >Uudise tekst:</label>
-			<div style="padding-top:6px"></div>
-			<textarea id="news_input" name="news_input"><?php echo $news_input_post; ?></textarea>
-			<script>CKEDITOR.replace('news_input');</script>
-				<div style="padding-top:8px"></div>
+		<div style="padding-top:8px">
+			<label for="expire_input">Viimane kuvamise kuupäev: </label>
+				<input type="date" name="expire_input" id="expire_input" value="<?php echo $expire_date; ?>">
+		</div>
 
-        <label for="expire_input">Viimane kuvamise kuupäev.</label>
-        	<input type="date" name="expire_input" id="expire_input" value="<?php echo $expire_date; ?>">
-				<div style="padding-top:4px"></div>
+		<div style="padding-top:6px">
+			<label for="photo_input"> Vali pildifail: </label>
+				<input type="file" name="photo_input" id="photo_input">
+		</div>
 
-		<label for="photo_input"> Vali pildifail! </label>
-        	<input type="file" name="photo_input" id="photo_input">
-				<div style="padding-top:4px"></div>
-				
-        <input type="submit" name="news_submit" id="news_submit" value="Salvesta uudis!"><span id="notice"></span>
+		<div style="padding-top:6px">
+       		<input type="submit" name="news_submit" id="news_submit" value="Salvesta uudis!"><span id="notice"></span>
+		</div>
     </form>
+
 	<div style="padding-top:4px">
     	<span><?php echo $news_notice; echo $error_notice; echo $photo_upload_error; echo $upload_notice; ?></span>
 	</div>
