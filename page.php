@@ -86,7 +86,6 @@ require_once("./page_fnc/fnc_gallery.php");
 		if(empty($_POST['email_input']) or empty($_POST['password_input'])){
 			$login_error = 'Palun kontrollige, et sisestatud andmed oleksid õiged!';
 		}
-		
     }
 require_once('./page_stuff/page_header.php');	
 ?>
