@@ -6,7 +6,7 @@ require_once("./page_fnc/fnc_news_upload.php");
 require_once("./page_fnc/fnc_general.php");
 require_once("./classes/Photo_upload.class.php"); //photo üleslaadimise klass.
 
-	$news_notice = $error_notice = $photo_upload_error = $upload_notice = $title_input_post = $news_input_post = $photo_file_name = null;
+	$news_notice = $error_notice = $photo_upload_error = $upload_notice = $title_input_post = $news_input_post = $photo_file_name = $does_news_have_photo = null;
 	
 	//uudise aegumine.
 	$expire = new DateTime("now");
@@ -46,8 +46,6 @@ require_once("./classes/Photo_upload.class.php"); //photo üleslaadimise klass.
 			$error_notice = "Kõik väljad pole täidetud!\n";
 		}
 
-		
-
 		if(!empty($_POST["expire_input"]) and isset($_POST["expire_input"])){
 			$news_expire = filter_var($_POST["expire_input"], FILTER_SANITIZE_NUMBER_INT);
 		}else{
@@ -59,6 +57,9 @@ require_once("./classes/Photo_upload.class.php"); //photo üleslaadimise klass.
 			//pilid salvestamine.
 			if(!empty($_FILES["photo_input"]["tmp_name"]) and isset($_FILES["photo_input"]["tmp_name"])){
 				
+				//pilid mitte lisamine uudistele millel seda pole valitud, FIX.
+				$does_news_have_photo = true;
+
 				//klassi aktiveerimine pilid kogumiga.
 				if(true){
 					$photo_upload_class = new Photoupload($_FILES["photo_input"]);
@@ -100,7 +101,7 @@ require_once("./classes/Photo_upload.class.php"); //photo üleslaadimise klass.
 			unset($photo_upload_class);
 
 			//teksti salvestamine AB.
-			if($upload_notice = store_news_data($news_text, $news_title, $news_expire)){
+			if($upload_notice = store_news_data($news_text, $news_title, $news_expire, $does_news_have_photo)){
 				$title_input_post = $news_input_post = $photo_file_name = null;
 			}else{
 				$error_notice = "Teksti laadimisel tekkis viga!\n";

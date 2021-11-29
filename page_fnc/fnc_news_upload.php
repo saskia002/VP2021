@@ -29,7 +29,7 @@
 		$notice = null;
 		$conn = new mysqli($GLOBALS["server_host"], $GLOBALS["server_user_name"], $GLOBALS["server_password"], $GLOBALS["database"]);
 		$conn->set_charset("utf8");
-		$stmt = $conn->prepare("SELECT title, firstname, lastname, added, content, photoid FROM vp_users AS U JOIN vp_news AS N ON U.id = N.userid where expire >= CURRENT_TIMESTAMP"); //WHERE added <= (SELECT expire FROM vp_news)
+		$stmt = $conn->prepare("SELECT title, firstname, lastname, added, content, photoid FROM vp_users AS U JOIN vp_news AS N ON U.id = N.userid where expire >= CURRENT_TIMESTAMP ORDER BY added DESC"); //WHERE added <= (SELECT expire FROM vp_news)
 		echo $conn->error;
 		$stmt->bind_result($news_title_from_db, $firstname_news_from_db, $lastname_news_from_db, $added_news_from_db, $news_content_from_db, $photo_id_news_from_db);
 
@@ -92,11 +92,15 @@
 		return $notice;
 	}
 	
-	function store_news_data($news_text, $news_title, $news_expire_date){
+	function store_news_data($news_text, $news_title, $news_expire_date, $does_news_have_photo = false){
+		//date fix.
 		$news_expire_date_fix = $news_expire_date;
 
-		$latest_photo_id = latest_news_photo_id();
-
+		//pilid fix.
+		if($does_news_have_photo == true){
+			$latest_photo_id = latest_news_photo_id();
+		}
+		
 		$notice = null;
 		$conn = new mysqli($GLOBALS["server_host"], $GLOBALS["server_user_name"], $GLOBALS["server_password"], $GLOBALS["database"]);
 		$conn->set_charset("utf8");
