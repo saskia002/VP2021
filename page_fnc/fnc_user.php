@@ -35,8 +35,7 @@
 		return $notice;
 	}
 	
-
-    function sign_in($email, $password){
+	function sign_in($email, $password){
         $notice = null;
         $conn = new mysqli($GLOBALS["server_host"], $GLOBALS["server_user_name"], $GLOBALS["server_password"], $GLOBALS["database"]);
         $conn->set_charset("utf8");

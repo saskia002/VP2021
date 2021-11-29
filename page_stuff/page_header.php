@@ -5,13 +5,14 @@
 	//$def_text_color = "#101010";
 	
 	if(isset($_SESSION["user_id"])){
-		$css_color = "<style>" ."\n";
-		$css_color .= "body {" ."\n";
-		$css_color .= "\tbackground-color: " .$_SESSION["bg_color"] ."; \n";
-		$css_color .= "\tcolor: " .$_SESSION["text_color"] ."; \n";
-		$css_color .= "}" ."\n";
+		$css_color = "<style>\n";
+		$css_color .= "body {\n";
+		$css_color .= "\tbackground-color: " .$_SESSION["bg_color"] .";\n";
+		$css_color .= "\tcolor: " .$_SESSION["text_color"] .";\n";
+		$css_color .= "}\n";
 		$css_color .= "</style>";
     }
+
 	//näitan kas kasutaja nime või looja nime
 	$author_name = "Siim";
 	$user_status_header_head = null;
@@ -34,8 +35,8 @@
 	<?php 
 		echo $user_status_header_head;
 		echo $page_icon;
-		echo $css_color;
 		echo $page_css;
+		echo $css_color;
 		if(isset($to_head) and !empty($to_head)){
 			echo $to_head;
 		}
