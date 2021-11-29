@@ -61,50 +61,48 @@ require_once("./classes/Photo_upload.class.php"); //photo üleslaadimise klass.
 				$does_news_have_photo = true;
 
 				//klassi aktiveerimine pilid kogumiga.
-				if(true){
-					$photo_upload_class = new Photoupload($_FILES["photo_input"]);
-				}else{
-					$photo_upload_error = "Pilid laadimisel tekkis viga!\n"; 
-				}
-				
-				if(empty($photo_upload_class->error)){
-					//kontrollin kas on sobiv faili tüüp.
-					$photo_upload_error .= $photo_upload_class->check_size($photo_upload_size_limit);
+				if($photo_upload_class = new Photoupload($_FILES["photo_input"])){
 
 					if(empty($photo_upload_class->error)){
-						//faili nimi.
-						$photo_upload_class->create_filename($photo_filename_prefix);
-
-						//resized pilid loomine ja laadimine.
-						$photo_upload_class->resize_photo($normal_photo_max_width, $normal_photo_max_height);
-						$photo_upload_class->save_image($news_photo_normal_upload_dir .$photo_upload_class->file_name);
-
-						//pisipildi loomine ja laadimine.
-						$photo_upload_class->resize_photo($thumbnail_width, $thumbnail_height);
-						$photo_upload_class->save_image($news_photo_thumbnail_upload_dir .$photo_upload_class->file_name);
-
-						//originaal pildi laadimine.
-						$photo_upload_class->move_original_photo($news_photo_orig_upload_dir .$photo_upload_class->file_name);
-
-						//AB lisamine.
-						$upload_notice .= store_news_photo_data($photo_upload_class->file_name);
-						$photo_file_name = $photo_upload_class->file_name;
-
+						//kontrollin kas on sobiv faili tüüp.
+						$photo_upload_error .= $photo_upload_class->check_size($photo_upload_size_limit);
+	
+						if(empty($photo_upload_class->error)){
+							//faili nimi.
+							$photo_upload_class->create_filename($photo_filename_prefix);
+	
+							//resized pilid loomine ja laadimine.
+							$photo_upload_class->resize_photo($normal_photo_max_width, $normal_photo_max_height);
+							$photo_upload_class->save_image($news_photo_normal_upload_dir .$photo_upload_class->file_name);
+	
+							//pisipildi loomine ja laadimine.
+							$photo_upload_class->resize_photo($thumbnail_width, $thumbnail_height);
+							$photo_upload_class->save_image($news_photo_thumbnail_upload_dir .$photo_upload_class->file_name);
+	
+							//originaal pildi laadimine.
+							$photo_upload_class->move_original_photo($news_photo_orig_upload_dir .$photo_upload_class->file_name);
+	
+							//AB lisamine.
+							$upload_notice .= store_news_photo_data($photo_upload_class->file_name);
+							$photo_file_name = $photo_upload_class->file_name;
+	
+						}else{
+							$photo_upload_error .= "Pilid salvestamisel tekkis viga!\n";
+						}
+						
 					}else{
 						$photo_upload_error .= "Pilid laadimisel tekkis viga!\n";
 					}
-					
-				}else{
-					$photo_upload_error .= "Pilid laadimisel tekkis viga!\n";
 				}
+				unset($photo_upload_class);
 			}
-			unset($photo_upload_class);
-
+			
 			//teksti salvestamine AB.
-			if($upload_notice = store_news_data($news_text, $news_title, $news_expire, $does_news_have_photo)){
+			if(store_news_data($news_text, $news_title, $news_expire, $does_news_have_photo)){
 				$title_input_post = $news_input_post = $photo_file_name = null;
+				$upload_notice .="Tekst salvestati AB!\n";
 			}else{
-				$error_notice = "Teksti laadimisel tekkis viga!\n";
+				$error_notice = "Teksti salvestamisel tekkis viga!\n";
 			}
 		}
     }

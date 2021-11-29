@@ -5,21 +5,17 @@
 
 	////SELECT filename FROM vp_news AS N JOIN vp_newsphotos AS NP ON NP.id = N.photoid; // SELECT filename FROM vp_newsphotos AS NP JOIN vp_news AS N ON N.photoid = NP.id
 	function get_news_photo_file_name_from_id($photo_id_news_from_db){
-
 		$notice = null;
 		$conn = new mysqli($GLOBALS["server_host"], $GLOBALS["server_user_name"], $GLOBALS["server_password"], $GLOBALS["database"]);
 		$conn->set_charset("utf8");
-
 		$stmt = $conn->prepare("SELECT filename FROM vp_newsphotos AS NP JOIN vp_news AS N ON N.photoid = NP.id WHERE N.photoid = ?");
 		echo $conn->error;
 		$stmt->bind_param("i", $photo_id_news_from_db);
 		$stmt->bind_result($photo_file_name_news_from_db);
-		
 		$stmt->execute();
 		$stmt->fetch();
-
 		$notice = $photo_file_name_news_from_db;
-
+		
 		$stmt->close();
 		$conn->close();
 		return $notice;
@@ -46,7 +42,7 @@
 				$notice .= '<p style="text-align: center;"><img src="'.$GLOBALS["news_photo_normal_upload_dir"] .$photo_file_name .'" alt="Uudise pilt"></p>' ."\n";
 			}
 		}if($notice ==  null){
-			$notice = "Värskeid uudiseid pole hetkel :( ";
+			$notice = "Värskeid uudiseid pole hetkel :(\n";
 		}
 
 		$stmt->close();
@@ -64,7 +60,7 @@
 		if($stmt->execute()){
 			$notice = "Uudise foto lisati andmebaasi!";
 		}else{
-			$notice = "uudise foto lisamisel andmebaasi tekkis tõrge: " .$stmt->error;
+			$notice = "uudise foto lisamisel andmebaasi tekkis tõrge: " .$stmt->error ."\n";
 		}
 	
 		$stmt->close();
@@ -74,10 +70,8 @@
 
 	function latest_news_photo_id(){
 		$notice = $photo_id = $photo_id_from_db = null;
-
 		$conn = new mysqli($GLOBALS["server_host"], $GLOBALS["server_user_name"], $GLOBALS["server_password"], $GLOBALS["database"]);
 		$conn->set_charset("utf8");
-
 		//laetud pilid id:
 		$stmt = $conn->prepare("SELECT id FROM vp_newsphotos WHERE added = (SELECT MAX(added) FROM vp_newsphotos)");
 		echo $conn->error;
@@ -108,9 +102,9 @@
 		echo $conn->error;
 		$stmt->bind_param("issss", $_SESSION["user_id"], $news_title, $news_text, $news_expire_date_fix, $latest_photo_id);
 		if($stmt->execute()){
-			$notice = "Uudise info lisati andmebaasi!";
+			$notice = "Uudise info lisati andmebaasi!\n";
 		}else{
-			$notice = "uudise info lisamisel andmebaasi tekkis tõrge: " .$stmt->error;
+			$notice = "uudise info lisamisel andmebaasi tekkis tõrge: " .$stmt->error ."\n";
 		}
 		$stmt->close();
 		$conn->close();
