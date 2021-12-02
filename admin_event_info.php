@@ -4,6 +4,11 @@ require_once("./page_fnc/fnc_party_info_upload.php");
 
 	$payment_update_notice = $query_notice = $payment_choice_1 = $payment_choice_0 = $payment_update = $person_choice_error = null;
 
+	//error fix.
+	if(!isset($_POST["payment_info_query"])){
+		$_POST["person_input"] = null;
+	}
+	
 	if(isset($_POST["payment_info_query"])){
 		if(isset($_POST["person_input"]) and $_POST["person_input"] >= 1){
 			if(read_if_this_person_has_payed($_POST["person_input"]) == 1){
@@ -21,10 +26,9 @@ require_once("./page_fnc/fnc_party_info_upload.php");
 	}
 
 	if(isset($_POST["payment_info_submit"])){
-		$person_id = $_POST["person_input"];
-		$payment_id = $_POST["studentcode_party_select"];
-		$payment_update_notice = update_event_payment_status($person_id, $payment_id);
+		$payment_update_notice = update_event_payment_status($_POST["person_input"], $_POST["studentcode_party_select"]);
 	}
+
 	
 require_once('./page_stuff/page_header.php');
 ?>
@@ -36,7 +40,11 @@ require_once('./page_stuff/page_header.php');
 		<label for="person_input">Isik: </label>
 			<select name="person_input" id="person_input">
 				<option value="" selected disabled>Vali isik</option>
-				<?php echo read_all_party_people($person_id); echo $person_choice_error; ?>
+				<?php 
+					$person_id = $_POST["person_input"];
+					echo read_all_party_people($person_id);
+					echo $person_choice_error; 
+					?>
 			</select>
 	</div>
 
@@ -44,8 +52,8 @@ require_once('./page_stuff/page_header.php');
 		<p>Kontrolli kas isik on juba maksnud: <b><?php echo $query_notice; ?></b></p><br>
        		<input type="submit" name="payment_info_query" id="payment_info_query" value="Kontrolli">
 	</div>
+	
 	</div><div style="width: 960px"><hr></div><div class="center body">
-	<?php echo $payment_update; ?>
+	<?php echo $payment_update; echo $payment_update_notice;?>
 </form>
-
-<?php echo $payment_update_notice; require_once('./page_stuff/page_footer.php'); ?>
+<?php require_once('./page_stuff/page_footer.php'); ?>

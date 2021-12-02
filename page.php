@@ -94,7 +94,6 @@ require_once('./page_stuff/page_header.php');
 		<input type='submit' name='todays_addjetive_input' value='Saada ära!'>
 		<span><?php echo $adjective_error;?></span>
 	</form>
-	<!-- <hr> -->
 	<?php echo $todays_evaluation; ?>
 	<hr>
 	<?php echo show_latest_public_photo(); ?>

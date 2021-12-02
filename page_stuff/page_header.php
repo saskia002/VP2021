@@ -1,17 +1,22 @@
 <?php
     $css_color = null;	
 	//värvi saad siit if statemendiga kaudu paika sättida. ja kui ei ss deafult
-	//$def_bg_color = "#AAA";
-	//$def_text_color = "#101010";
+	$def_bg_color = "#AAA";
+	$def_text_color = "#101010";
 	
-	if(isset($_SESSION["user_id"])){
-		$css_color = "<style>\n";
-		$css_color .= "body {\n";
-		$css_color .= "\tbackground-color: " .$_SESSION["bg_color"] .";\n";
-		$css_color .= "\tcolor: " .$_SESSION["text_color"] .";\n";
-		$css_color .= "}\n";
-		$css_color .= "</style>";
-    }
+	
+	$css_color = "<style>\n";
+	$css_color .= "body {\n";
+		if(isset($_SESSION["bg_color"]) and isset($_SESSION["text_color"])){
+			$css_color .= "\tbackground-color: " .$_SESSION["bg_color"] .";\n";
+			$css_color .= "\tcolor: " .$_SESSION["text_color"] .";\n";
+		}else{
+			$css_color .= "\tbackground-color: " .$def_bg_color .";\n";
+			$css_color .= "\tcolor: " .$def_text_color .";\n";
+		}
+	$css_color .= "}\n";
+	$css_color .= "</style>";
+    
 
 	//näitan kas kasutaja nime või looja nime
 	$author_name = "Siim";
@@ -44,6 +49,7 @@
 </head>
 <body>
 	<?php require_once('page_navbar.php'); ?>
-	<p style="text-align: center;"><img src="photos/vp_banner.png" alt="veebiprogrammeerimise lehe bänner"></p>
-	<div style="width: 960px; padding-bottom: 8px;"><hr></div>
 	<div class="center body">
+	<p style="text-align: center;"><img src="photos/vp_banner.png" alt="veebiprogrammeerimise lehe bänner"></p>
+	<hr>
+	

@@ -24,13 +24,13 @@ require_once('./page_stuff/page_header.php');
 		<li><a href="gallery_own.php">Minu fotode galerii</a></li><br />
 		<li><a href="add_news.php">Uudiste lisamine</a></li><br />
 	</ul>
-	</div><div style="width: 960px"><hr></div><div class="center body">
+		<hr>
 	<ul> 
 		<li><a href="register_to_event.php">Reg. peole</a></li><br />
 		<li><a href="cancel_register_to_event.php">Ütle peost ära</a></li><br />
 		<li><a href="admin_event_info.php">Peo info adminile</a></li><br />
 	</ul>
-	</div><div style="width: 960px"><hr></div><div class="center body">
+	<hr>
 <?php
 	echo $last_visitor;
 	//Siia see värksete uudiste näitamine

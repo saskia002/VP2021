@@ -31,8 +31,7 @@
 
 		$stmt->execute();
 		while($stmt->fetch()){
-			$notice .= '</div><div style="width: 960px"><hr></div>' ."\n";
-			$notice .= '<div class="center body">' ."\n";
+			$notice .= "<hr>\n";
 			$notice .= "<h3>" .$news_title_from_db ."</h3>\n";
 			$est_date =	date_to_est_format($added_news_from_db);
 			$notice .= "<p><b>" .$firstname_news_from_db ." " .$lastname_news_from_db  ."</b><i>" ." - " .$est_date ."</i></p>\n";

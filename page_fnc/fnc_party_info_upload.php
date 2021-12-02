@@ -44,6 +44,7 @@
 		return $notice;
 	}
 
+	//admin panel.
 	function update_event_payment_status($person_id, $payment_id){
 		$notice = null;
 		$conn = new mysqli($GLOBALS["server_host"], $GLOBALS["server_user_name"], $GLOBALS["server_password"], $GLOBALS["database"]);
@@ -121,6 +122,7 @@
 		return $notice;
 	}
 
+	//stats.
 	function read_all_party_people_reg(){
 		$html = null;
 		$conn = new mysqli($GLOBALS['server_host'], $GLOBALS['server_user_name'], $GLOBALS['server_password'], $GLOBALS['database']);
