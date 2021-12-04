@@ -89,23 +89,34 @@ require_once("./page_fnc/fnc_gallery.php");
     }
 require_once('./page_stuff/page_header.php');	
 ?>
-	<form method='POST'>
+	<!-- <form method='POST'>
 		<input type='text' name='adjective_input' placeholder='omadussõna tänase kohta' value='<?php echo $inserted_adjective; ?>'>
 		<input type='submit' name='todays_addjetive_input' value='Saada ära!'>
 		<span><?php echo $adjective_error;?></span>
 	</form>
-	<?php echo $todays_evaluation; ?>
+
+	//<?php echo $todays_evaluation; ?>//
+
+	<hr> -->
+
+	<div>
+		<?php echo show_latest_public_photo(); ?>
+	</div>
+
 	<hr>
-	<?php echo show_latest_public_photo(); ?>
-	<hr>
-	<form method="POST">
-		<?php echo $photo_select_html; ?>
-		<input type="submit" name="photo_select_submit" value="Näita valitud fotot">
-	</form><br />
-	<?php
-		echo $pic_html;
-		echo $pic_file_html;
-		echo "<hr> \n";
-		echo $list_html;
-	?>
+
+	<div>
+		<form method="POST">
+			<?php echo $photo_select_html; ?>
+			<input type="submit" name="photo_select_submit" value="Näita valitud fotot"><br><br>
+		</form>
+
+		<?php
+			echo $pic_html;
+			echo $pic_file_html;
+			echo "<hr> \n";
+			echo $list_html;
+		?>
+	</div>
+
 <?php require_once('./page_stuff/page_footer.php'); ?>

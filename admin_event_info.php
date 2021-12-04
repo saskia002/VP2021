@@ -53,7 +53,7 @@ require_once('./page_stuff/page_header.php');
        		<input type="submit" name="payment_info_query" id="payment_info_query" value="Kontrolli">
 	</div>
 	
-	</div><div style="width: 960px"><hr></div><div class="center body">
+	<hr>
 	<?php echo $payment_update; echo $payment_update_notice;?>
 </form>
 <?php require_once('./page_stuff/page_footer.php'); ?>

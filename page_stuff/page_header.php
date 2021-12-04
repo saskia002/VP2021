@@ -1,21 +1,20 @@
 <?php
     $css_color = null;	
 	//värvi saad siit if statemendiga kaudu paika sättida. ja kui ei ss deafult
-	$def_bg_color = "#AAA";
-	$def_text_color = "#101010";
+	$def_bg_color = "#303436";
+	$def_text_color = "white";//"#101010";
 	
-	
-	$css_color = "<style>\n";
-	$css_color .= "body {\n";
+	$css_color = "<style> \n";
+	$css_color .= "body { \n";
 		if(isset($_SESSION["bg_color"]) and isset($_SESSION["text_color"])){
 			$css_color .= "\tbackground-color: " .$_SESSION["bg_color"] .";\n";
 			$css_color .= "\tcolor: " .$_SESSION["text_color"] .";\n";
 		}else{
-			$css_color .= "\tbackground-color: " .$def_bg_color .";\n";
-			$css_color .= "\tcolor: " .$def_text_color .";\n";
+			$css_color .= "\tbackground-color: " .$def_bg_color ."; \n";
+			$css_color .= "\tcolor: " .$def_text_color ."; \n";
 		}
-	$css_color .= "}\n";
-	$css_color .= "</style>";
+	$css_color .= "} \n";
+	$css_color .= "</style> \n";
     
 
 	//näitan kas kasutaja nime või looja nime
@@ -23,15 +22,15 @@
 	$user_status_header_head = null;
 	$user_status_header_body = null;
 	if(isset($_SESSION["user_id"])){
-		$user_status_header_head = '<title>'. $_SESSION["first_name"] ." " .$_SESSION["last_name"]. ', veebiprogrammeerimine</title>';
+		$user_status_header_head = '<title>'. $_SESSION["first_name"] ." " .$_SESSION["last_name"]. ', VP</title>';
         //$user_status_header_body = '<p class="image"><img src="photos/vp_banner.png" alt="veebiprogrammeerimise lehe bänner">'. "\n". '<i><h1><b></p>'. $_SESSION["first_name"] ." " .$_SESSION["last_name"]. '</b>, veebiprogrammeerimine</h1></i>';
     }else{
 		//$user_status_header_head = '<title class=>'. $author_name. ', veebiprogrammeerimine</title>';
-		$user_status_header_body = '<i><h1>'. $author_name. ', Veebiprogrammeerimine</h1></i>';
+		$user_status_header_body = '<i><h1>'. $author_name. ', VP</h1></i>';
 	}
 	//kui on sisse logitud näita kasutaja nime ja kui ei siis looja nime.
-	$page_icon = '<link rel="shortcut icon" type="image/jpg" href="./photos_2/pics/vp_logo_w100_overlay.png"/>';
-	$page_css = '<link rel="stylesheet" type="text/css" href="style/page_style.css">';
+	$page_icon = '<link rel="shortcut icon" type="image/jpg" href="./photos_2/pics/vp_logo_w100_overlay.png"/>' ."\n";
+	$page_css = '<link rel="stylesheet" type="text/css" href="style/page_style.css">' ."\n";
 ?>
 <!DOCTYPE html>
 <html lang="et">
@@ -49,7 +48,6 @@
 </head>
 <body>
 	<?php require_once('page_navbar.php'); ?>
-	<div class="center body">
-	<p style="text-align: center;"><img src="photos/vp_banner.png" alt="veebiprogrammeerimise lehe bänner"></p>
+	<br>
+	<div class="center_style" style="padding-top: 6px;"><img src="photos/vp_banner.png" alt="veebiprogrammeerimise lehe bänner"></div>
 	<hr>
-	

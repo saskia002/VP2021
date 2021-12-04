@@ -14,6 +14,7 @@ require_once("./page_fnc/fnc_news_upload.php");
 	//var_dump($_COOKIE);
 require_once('./page_stuff/page_header.php'); 
 ?>
+
     <ul>
 		<li><a href="add_films.php">Lisage filme andmebaasi</a></li><br />
 		<li><a href="list_films.php">Andmebaasi lisatud failide list</a></li><br />

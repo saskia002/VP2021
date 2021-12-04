@@ -73,7 +73,7 @@ require_once('./page_stuff/page_header.php');
 <p>Peost võtab osa inimest: <?php echo read_all_party_people_reg(); ?></p> 
 <p>Peo eest on juba maksnud inimest: <?php echo read_all_party_people_reg_and_payed(); ?></p>
 
-</div><div style="width: 960px"><hr></div><div class="center body">
+<hr>
 <h2>Rega peole</h2>
 
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
