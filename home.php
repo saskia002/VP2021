@@ -29,7 +29,7 @@ require_once('./page_stuff/page_header.php');
 	<ul> 
 		<li><a href="register_to_event.php">Reg. peole</a></li><br />
 		<li><a href="cancel_register_to_event.php">Ütle peost ära</a></li><br />
-		<li><a href="admin_event_info.php">Peo info adminile</a></li><br />
+		<li><a href="admin_event_info_v2.php">Peo info adminile</a></li><br />
 	</ul>
 	<hr>
 <?php

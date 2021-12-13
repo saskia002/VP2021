@@ -54,6 +54,6 @@ require_once('./page_stuff/page_header.php');
 	</div>
 	
 	<hr>
-	<?php echo $payment_update; echo $payment_update_notice;?>
+	<?php echo $payment_update; echo $payment_update_notice; ?>
 </form>
 <?php require_once('./page_stuff/page_footer.php'); ?>

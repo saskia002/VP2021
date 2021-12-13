@@ -3,6 +3,57 @@
 	require_once('fnc_general.php');
 	require_once("../../config.php");
 
+	//Parandatud admin panel, kordamine eksamiks.
+	function forms_for_payment(){
+		$list_html = null;
+		$list_html .= '<table><thead><tr><th>Nimi</th><th> Makse olek </th></tr></thead><tbody>' ."\n";
+
+        $conn = new mysqli($GLOBALS["server_host"], $GLOBALS["server_user_name"], $GLOBALS["server_password"], $GLOBALS["database"]);
+        $conn->set_charset("utf8");
+		$stmt = $conn->prepare("SELECT id, firstname, lastname, payment from vp_party WHERE cancelled IS NULL");
+		$stmt->bind_result($id_from_db, $firstname_from_db, $lastname_from_db, $payment_from_db);
+		$stmt->execute();
+		while($stmt->fetch()){
+			if(empty($payment_from_db)){
+				$list_html .= "<tr> \n";
+				$list_html .= "<td>" .$firstname_from_db ." " .$lastname_from_db ."</td> \n";
+				$list_html .= '<td><form method="POST" action="' .htmlspecialchars($_SERVER["PHP_SELF"]) .'">' ."\n";
+				$list_html .= '<input type="hidden" name="id_input" value="' .$id_from_db .'">' ."\n";
+				$list_html .= '<input name="payment_submit" type="submit" value="Märgi maksnuks">' ."\n";
+				$list_html .= "</form></td> \n";
+				$list_html .= "</tr> \n";
+			} else {
+				$list_html .= "<tr> \n";
+				$list_html .= "<td>".$firstname_from_db ." " .$lastname_from_db ."</td> \n";
+				$list_html .= "<td>Makstud</td> \n";
+				$list_html .= "</tr> \n";
+			}
+		}
+		if(empty($list_html)){
+			$list_html .= "<tr> \n";
+
+			$list_html = "<p>Kahjuks pole peole registreerunuid!</p> \n";
+
+			$list_html .= "</tr> \n";
+		}
+		
+		$list_html .= "</tbody></table> \n";
+
+		$stmt->close();
+        $conn->close();
+        return $list_html;
+	}
+
+	 //    //kontrollime sisestust
+	 //    if($_SERVER["REQUEST_METHOD"] === "POST"){
+	 //        if(isset($_POST["payment_submit"])){
+	 //            if(!empty($_POST["id_input"])){
+		// 			set_payment($_POST["id_input"]);
+		// 		}
+		// 	}
+		// }
+	//...
+
 	function register_to_event($firstname_party_new, $lastname_party_new, $studentcode_party_new, $payment_party){
 		$notice = null;
 		$conn = new mysqli($GLOBALS["server_host"], $GLOBALS["server_user_name"], $GLOBALS["server_password"], $GLOBALS["database"]);
