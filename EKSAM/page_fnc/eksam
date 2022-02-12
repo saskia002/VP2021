@@ -1,0 +1,20 @@
+1. teed ostu lehe.
+teen äkki tulpade kaupa??
+	siis sql et saaks neid sealt osta....
+
+
+
+
+
+	SQL:
+	1. toote nimi
+			2. lao seis
+				3. toote hind
+				4. palju välja müüdud.
+					5. välja müümise kasum kokku.
+
+
+					SELECT id, name, price, stock FROM vp_goods
+
+
+					"UPDATE vp_goods SET stock = (stock - 1) WHERE id = ?"
